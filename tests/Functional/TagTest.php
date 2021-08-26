@@ -6,8 +6,8 @@ use App\Entity\Tag;
 
 class TagTest extends CommonFunctions
 {
-    const TAG_COLLECTION_PATH = "/api/tags";
-    const TAG_CLASS_NAME = Tag::class;
+    public const TAG_COLLECTION_PATH = '/api/tags';
+    public const TAG_CLASS_NAME = Tag::class;
 
     public function testGetTagCollectionUnlogged(): void
     {
@@ -44,16 +44,14 @@ class TagTest extends CommonFunctions
             '@id' => $iri,
             '@type' => 'Tag',
         ]);
-
     }
 
     public function testCreateTagItemUnlogged(): void
     {
-
         $response = static::unloggedClient()->request('POST', self::TAG_COLLECTION_PATH, [
             'json' => [
                 'name' => 'finanza',
-            ]
+            ],
         ]);
 
         $this->assertResponseStatusCodeSame(401);
@@ -61,13 +59,69 @@ class TagTest extends CommonFunctions
 
     public function testCreateTagItemWithoutName(): void
     {
-
-        $response = static::unloggedClient()->request('POST', self::TAG_COLLECTION_PATH, [
-            'json' => [
-                'name' => 'finanza',
-            ]
+        $response = static::adminClient()->request('POST', self::TAG_COLLECTION_PATH, [
+            'json' => [],
         ]);
 
-        $this->assertResponseStatusCodeSame(401);
+        $this->assertResponseStatusCodeSame(422);
+        $numberOfViolatons = 1;
+        $this->assertEquals($numberOfViolatons, count($response->toArray(false)['violations']));
+    }
+
+    public function testCreateTagItemWithEmptyName(): void
+    {
+        $response = static::adminClient()->request('POST', self::TAG_COLLECTION_PATH, [
+            'json' => [
+                'name' => '',
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(422);
+        $numberOfViolatons = 1;
+        $this->assertEquals($numberOfViolatons, count($response->toArray(false)['violations']));
+    }
+
+    public function testCreateTagItemAsEditor(): void
+    {
+        $response = static::editorClient()->request('POST', self::TAG_COLLECTION_PATH, [
+            'json' => [
+                'name' => 'finanza',
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testCreateTagItemAsPublisher(): void
+    {
+        $response = static::editorClient()->request('POST', self::TAG_COLLECTION_PATH, [
+            'json' => [
+                'name' => 'finanza',
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testCreateTagItemAsReviewer(): void
+    {
+        $response = static::editorClient()->request('POST', self::TAG_COLLECTION_PATH, [
+            'json' => [
+                'name' => 'finanza',
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testCreateTagItemAsAdmin(): void
+    {
+        $response = static::adminClient()->request('POST', self::TAG_COLLECTION_PATH, [
+            'json' => [
+                'name' => 'finanza',
+            ],
+        ]);
+
+        $this->assertResponseStatusCodeSame(201);
     }
 }
