@@ -83,7 +83,7 @@ class CategoryTest extends CommonFunctions
     {
         $response = static::editorClient()->request('POST', self::CATEGORY_COLLECTION_PATH, [
             'json' => [
-                'name' => 'finanza',
+                'name' => 'cronaca-locale',
             ],
         ]);
 
