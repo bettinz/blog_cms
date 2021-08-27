@@ -42,6 +42,31 @@ class News
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $startPublicationDate;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $endPublicationDate;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $publicationStatus;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="news")
+     */
+    private $author;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -108,6 +133,66 @@ class News
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getStartPublicationDate(): ?\DateTimeInterface
+    {
+        return $this->startPublicationDate;
+    }
+
+    public function setStartPublicationDate(\DateTimeInterface $startPublicationDate): self
+    {
+        $this->startPublicationDate = $startPublicationDate;
+
+        return $this;
+    }
+
+    public function getEndPublicationDate(): ?\DateTimeInterface
+    {
+        return $this->endPublicationDate;
+    }
+
+    public function setEndPublicationDate(?\DateTimeInterface $endPublicationDate): self
+    {
+        $this->endPublicationDate = $endPublicationDate;
+
+        return $this;
+    }
+
+    public function getPublicationStatus(): ?string
+    {
+        return $this->publicationStatus;
+    }
+
+    public function setPublicationStatus(?string $publicationStatus): self
+    {
+        $this->publicationStatus = $publicationStatus;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }
