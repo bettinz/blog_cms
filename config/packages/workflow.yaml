@@ -1,2 +1,29 @@
 framework:
-    workflows: null
+    workflows:
+        news:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'publicationStatus'
+            supports:
+                - App\Entity\News
+            initial_marking: idea
+            places:
+                - idea
+                - draft
+                - ready_to_publish
+                - published
+                - unpublished
+            transitions:
+                validate:
+                    from: idea
+                    to: draft
+                pre-publicate:
+                    from: draft
+                    to: ready_to_publish
+                publish:
+                    from: [ready_to_publish, unpublished]
+                    to: published
+                unpublish:
+                    from: published
+                    to: unpublished
