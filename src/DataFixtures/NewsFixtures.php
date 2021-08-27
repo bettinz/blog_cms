@@ -18,6 +18,10 @@ class NewsFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->ronaldoNewsBuilder($manager);
+        $this->terremotoNewsBuilder($manager);
+        $this->youtoboNewsBuilder($manager);
+        $this->bocciardoNewsBuilder($manager);
+        $this->deutscheNewsBuilder($manager);
 
         $manager->flush();
     }
