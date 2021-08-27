@@ -4,16 +4,16 @@ namespace App\DataFixtures;
 
 use App\Entity\News;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class NewsFixtures extends Fixture
+class NewsFixtures extends Fixture implements DependentFixtureInterface
 {
     public const RONALDO_NEWS_REFERENCE = 'ronaldo';
     public const TERREMOTO_NEWS_REFERENCE = 'terremoto';
     public const YOUTOBO_NEWS_REFERENCE = 'youtobo';
     public const BOCCIARDO_NEWS_REFERENCE = 'bocciardo';
     public const DEUTSCHE_NEWS_REFERENCE = 'deutsche';
-
 
     public function load(ObjectManager $manager)
     {
@@ -86,5 +86,14 @@ class NewsFixtures extends Fixture
         $manager->persist($news);
 
         $this->addReference(self::DEUTSCHE_NEWS_REFERENCE, $news);
+    }
+
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+            CategoryFixtures::class,
+            TagFixtures::class,
+        ];
     }
 }

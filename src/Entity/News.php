@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ApiResource()
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass=NewsRepository::class)
  */
 class News
@@ -48,7 +49,7 @@ class News
     private $creationDate;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $startPublicationDate;
 
@@ -67,9 +68,31 @@ class News
      */
     private $author;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $updateDate;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function onAdd()
+    {
+        $this->setCreationDate(new \DateTime('now'));
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function onUpdate()
+    {
+        $this->setUpdateDate(new \DateTime('now'));
     }
 
     public function getId(): ?int
@@ -193,6 +216,18 @@ class News
     public function setAuthor(?User $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getUpdateDate(): ?\DateTimeInterface
+    {
+        return $this->updateDate;
+    }
+
+    public function setUpdateDate(?\DateTimeInterface $updateDate): self
+    {
+        $this->updateDate = $updateDate;
 
         return $this;
     }
