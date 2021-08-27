@@ -35,6 +35,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->addTag($this->getReference(TagFixtures::SPORT_TAG_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::ECONOMIA_TAG_REFERENCE));
         $news->setPublicationStatus('idea');
+        $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
 
         $this->addReference(self::RONALDO_NEWS_REFERENCE, $news);
@@ -48,6 +49,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->setCategory($this->getReference(CategoryFixtures::LETTERE_AL_DIRETTORE_CATEGORY_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::CRONACA_TAG_REFERENCE));
         $news->setPublicationStatus('draft');
+        $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
 
         $this->addReference(self::TERREMOTO_NEWS_REFERENCE, $news);
@@ -61,6 +63,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->setCategory($this->getReference(CategoryFixtures::LETTERE_AL_DIRETTORE_CATEGORY_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::CRONACA_TAG_REFERENCE));
         $news->setPublicationStatus('ready_to_publish');
+        $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
 
         $this->addReference(self::YOUTOBO_NEWS_REFERENCE, $news);
@@ -74,6 +77,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->setCategory($this->getReference(CategoryFixtures::EDITORIALE_CATEGORY_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::SPORT_TAG_REFERENCE));
         $news->setPublicationStatus('published');
+        $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
 
         $this->addReference(self::BOCCIARDO_NEWS_REFERENCE, $news);
@@ -88,6 +92,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->addTag($this->getReference(TagFixtures::ECONOMIA_TAG_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::CRONACA_TAG_REFERENCE));
         $news->setPublicationStatus('unpublished');
+        $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
 
         $this->addReference(self::DEUTSCHE_NEWS_REFERENCE, $news);

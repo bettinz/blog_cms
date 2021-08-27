@@ -24,8 +24,6 @@ class TagTest extends CommonFunctions
             'hydra:totalItems' => 3,
         ]);
 
-        $this->cronacaTagId = $response->toArray(true)['@id'];
-
         $this->assertCount(3, $response->toArray()['hydra:member']);
 
         $this->assertMatchesResourceCollectionJsonSchema(self::TAG_CLASS_NAME);

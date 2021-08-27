@@ -60,6 +60,7 @@ class News
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="news")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      * @ApiSubresource()
      * @Groups("news")
      */
@@ -92,6 +93,7 @@ class News
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="news")
      * @ORM\JoinColumn(nullable=false)
+     * @Assert\NotBlank()
      */
     private $author;
 
