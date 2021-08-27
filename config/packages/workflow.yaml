@@ -16,14 +16,18 @@ framework:
                 - unpublished
             transitions:
                 validate:
+                    guard: "is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN')"
                     from: idea
                     to: draft
                 pre-publicate:
+                    guard: "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
                     from: draft
                     to: ready_to_publish
                 publish:
+                    guard: "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
                     from: [ready_to_publish, unpublished]
                     to: published
                 unpublish:
+                    guard: "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
                     from: published
                     to: unpublished
