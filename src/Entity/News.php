@@ -3,6 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\NewsStatus\MoveToDraftsNews;
+use App\Controller\NewsStatus\PrePublicateNews;
+use App\Controller\NewsStatus\PublishNews;
+use App\Controller\NewsStatus\UnpublishNews;
+use App\Controller\NewsStatus\UnvalidateNews;
+use App\Controller\NewsStatus\ValidateNews;
 use App\Repository\NewsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,11 +22,53 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "groups"={"news"}
  *     },
  *     itemOperations={
- *          "get"
+ *          "get",
+ *          "patch_status_validate" = {
+ *              "method" = "PATCH",
+ *              "path" = "/news/{id}/validate",
+ *              "controller" = ValidateNews::class,
+ *              "denormalization_context" = {"groups" = {"status_update"}},
+ *              "security" = "is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN')"
+ *          },
+ *          "patch_status_unvalidate" = {
+ *              "method" = "PATCH",
+ *              "path" = "/news/{id}/unvalidate",
+ *              "controller" = UnvalidateNews::class,
+ *              "denormalization_context" = {"groups" = {"status_update"}},
+ *              "security" = "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
+ *          },
+ *          "patch_status_move_to_drafts" = {
+ *              "method" = "PATCH",
+ *              "path" = "/news/{id}/move-to-drafts",
+ *              "controller" = MoveToDraftsNews::class,
+ *              "denormalization_context" = {"groups" = {"status_update"}},
+ *              "security" = "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
+ *          },
+ *          "patch_status_pre_publicate" = {
+ *              "method" = "PATCH",
+ *              "path" = "/news/{id}/pre-publicate",
+ *              "controller" = PrePublicateNews::class,
+ *              "denormalization_context" = {"groups" = {"status_update"}},
+ *              "security" = "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
+ *          },
+ *          "patch_status_publish" = {
+ *              "method" = "PATCH",
+ *              "path" = "/news/{id}/publish",
+ *              "controller" = PublishNews::class,
+ *              "denormalization_context" = {"groups" = {"status_update"}},
+ *              "security" = "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
+ *          },
+ *          "patch_status_unpublish" = {
+ *              "method" = "PATCH",
+ *              "path" = "/news/{id}/unpublish",
+ *              "controller" = UnpublishNews::class,
+ *              "denormalization_context" = {"groups" = {"status_update"}},
+ *              "security" = "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
+ *          },
  *     },
  *     collectionOperations={
  *          "get",
- *          "post" = {"security"="is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') or is_granted('ROLE_PUBLISHER') or is_granted('ROLE_REVIEWER') "}
+ *          "post" = {"security"="is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') or is_granted('ROLE_PUBLISHER') or is_granted('ROLE_REVIEWER')"},
  *     }
  * )
  * @ORM\HasLifecycleCallbacks()
@@ -28,6 +76,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class News
 {
+    public const STATUS_IDEA = 'idea';
+    public const STATUS_DRAFT = 'draft';
+    public const STATUS_READY_TO_PUBLISH = 'ready_to_publish';
+    public const STATUS_PUBLISHED = 'published';
+    public const STATUS_UNPUBLISHED = 'unpublished';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -111,6 +165,7 @@ class News
      */
     public function onAdd()
     {
+        $this->setPublicationStatus(self::STATUS_IDEA);
         $this->setCreationDate(new \DateTime('now'));
     }
 

@@ -1,6 +1,6 @@
 framework:
     workflows:
-        news:
+        news_publication_status:
             type: 'state_machine'
             marking_store:
                 type: 'method'
@@ -19,10 +19,18 @@ framework:
                     guard: "is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN')"
                     from: idea
                     to: draft
-                pre-publicate:
+                unvalidate:
+                    guard: "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
+                    from: draft
+                    to: idea
+                pre_publicate:
                     guard: "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
                     from: draft
                     to: ready_to_publish
+                move_to_drafts:
+                    guard: "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
+                    from: ready_to_publish
+                    to: draft
                 publish:
                     guard: "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
                     from: [ready_to_publish, unpublished]
