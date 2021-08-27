@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -44,6 +45,7 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity=News::class, mappedBy="category")
+     * @ApiSubresource()
      */
     private $news;
 
