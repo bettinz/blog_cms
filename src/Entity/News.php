@@ -71,6 +71,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "post" = {
  *              "security" = "is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') or is_granted('ROLE_PUBLISHER') or is_granted('ROLE_REVIEWER')",
  *              "messenger" = true,
+ *              "output" = false,
+ *              "status" = 201
  *          },
  *     }
  * )

@@ -9,3 +9,5 @@ api_platform:
             apiKey:
                 name: Authorization
                 type: header
+    messenger:
+        enabled: true
