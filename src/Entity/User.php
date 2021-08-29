@@ -17,9 +17,6 @@ use App\DTO\UserOutputDto;
  * @ApiResource(
  *     input=UserInputDto::class,
  *     output=UserOutputDto::class,
- *     normalizationContext={
- *          "groups"={"user"}
- *     },
  *     itemOperations={
  *          "get" = {"security"="is_granted('ROLE_ADMIN')"},
  *     },
@@ -42,7 +39,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups("user", "news")
+     * @Groups("news")
      */
     private $email;
 
