@@ -7,7 +7,7 @@ use App\Controller\NewsStatus\MoveToDraftsNews;
 use App\Controller\NewsStatus\PrePublicateNews;
 use App\Controller\NewsStatus\PublishNews;
 use App\Controller\NewsStatus\UnpublishNews;
-use App\Controller\NewsStatus\UnvalidateNews;
+use App\Controller\NewsStatus\InvalidateNews;
 use App\Controller\NewsStatus\ValidateNews;
 use App\Repository\NewsRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -24,42 +24,42 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     itemOperations={
  *          "get",
  *          "patch_status_validate" = {
- *              "method" = "PATCH",
+ *              "method" = "GET",
  *              "path" = "/news/{id}/validate",
  *              "controller" = ValidateNews::class,
  *              "denormalization_context" = {"groups" = {"status_update"}},
  *              "security" = "is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN')"
  *          },
- *          "patch_status_unvalidate" = {
- *              "method" = "PATCH",
- *              "path" = "/news/{id}/unvalidate",
- *              "controller" = UnvalidateNews::class,
+ *          "patch_status_invalidate" = {
+ *              "method" = "GET",
+ *              "path" = "/news/{id}/invalidate",
+ *              "controller" = InvalidateNews::class,
  *              "denormalization_context" = {"groups" = {"status_update"}},
  *              "security" = "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
  *          },
  *          "patch_status_move_to_drafts" = {
- *              "method" = "PATCH",
+ *              "method" = "GET",
  *              "path" = "/news/{id}/move-to-drafts",
  *              "controller" = MoveToDraftsNews::class,
  *              "denormalization_context" = {"groups" = {"status_update"}},
  *              "security" = "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
  *          },
  *          "patch_status_pre_publicate" = {
- *              "method" = "PATCH",
+ *              "method" = "GET",
  *              "path" = "/news/{id}/pre-publicate",
  *              "controller" = PrePublicateNews::class,
  *              "denormalization_context" = {"groups" = {"status_update"}},
  *              "security" = "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
  *          },
  *          "patch_status_publish" = {
- *              "method" = "PATCH",
+ *              "method" = "GET",
  *              "path" = "/news/{id}/publish",
  *              "controller" = PublishNews::class,
  *              "denormalization_context" = {"groups" = {"status_update"}},
  *              "security" = "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
  *          },
  *          "patch_status_unpublish" = {
- *              "method" = "PATCH",
+ *              "method" = "GET",
  *              "path" = "/news/{id}/unpublish",
  *              "controller" = UnpublishNews::class,
  *              "denormalization_context" = {"groups" = {"status_update"}},

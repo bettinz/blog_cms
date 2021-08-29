@@ -19,7 +19,7 @@ framework:
                     guard: "is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN')"
                     from: idea
                     to: draft
-                unvalidate:
+                invalidate:
                     guard: "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
                     from: draft
                     to: idea
