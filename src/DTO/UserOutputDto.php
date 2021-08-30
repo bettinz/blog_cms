@@ -4,11 +4,11 @@ namespace App\DTO;
 
 class UserOutputDto
 {
-    private int $id;
+    public int $id;
 
-    private string $email;
+    public string $email;
 
-    private array $roles;
+    public array $roles;
 
     public function setId(int $id): void
     {

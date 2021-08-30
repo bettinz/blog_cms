@@ -10,19 +10,19 @@ class UserInputDto
      * @var string
      * @Assert\NotBlank()
      */
-    private string $email;
+    public string $email;
 
     /**
      * @var string
      * @Assert\NotBlank()
      */
-    private string $password;
+    public string $password;
 
     /**
      * @var array
      * @Assert\NotBlank()
      */
-    private array $roles;
+    public array $roles;
 
     /**
      * @return string
