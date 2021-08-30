@@ -25,7 +25,7 @@ class IdeaNewsUnpublishTest extends CommonFunctions
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Bocciardo, doppio oro alle Paralimpiadi',
+            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
         ]);
 
         $id = $news->getId();
@@ -43,7 +43,7 @@ class IdeaNewsUnpublishTest extends CommonFunctions
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Bocciardo, doppio oro alle Paralimpiadi',
+            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
         ]);
 
         $id = $news->getId();
@@ -67,7 +67,7 @@ class IdeaNewsUnpublishTest extends CommonFunctions
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Bocciardo, doppio oro alle Paralimpiadi',
+            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
         ]);
 
         $id = $news->getId();
@@ -84,7 +84,7 @@ class IdeaNewsUnpublishTest extends CommonFunctions
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Bocciardo, doppio oro alle Paralimpiadi',
+            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
         ]);
 
         $id = $news->getId();
