@@ -1,0 +1,41 @@
+framework:
+    workflows:
+        news_publication_status:
+            type: 'state_machine'
+            marking_store:
+                type: 'method'
+                property: 'publicationStatus'
+            supports:
+                - App\Entity\News
+            initial_marking: idea
+            places:
+                - idea
+                - draft
+                - ready_to_publish
+                - published
+                - unpublished
+            transitions:
+                validate:
+                    guard: "is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN')"
+                    from: idea
+                    to: draft
+                invalidate:
+                    guard: "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
+                    from: draft
+                    to: idea
+                pre_publicate:
+                    guard: "is_granted('ROLE_REVIEWER') or is_granted('ROLE_ADMIN')"
+                    from: draft
+                    to: ready_to_publish
+                move_to_drafts:
+                    guard: "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
+                    from: ready_to_publish
+                    to: draft
+                publish:
+                    guard: "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
+                    from: [ready_to_publish, unpublished]
+                    to: published
+                unpublish:
+                    guard: "is_granted('ROLE_PUBLISHER') or is_granted('ROLE_ADMIN')"
+                    from: published
+                    to: unpublished
