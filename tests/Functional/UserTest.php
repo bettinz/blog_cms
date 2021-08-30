@@ -238,4 +238,17 @@ class UserTest extends CommonFunctions
         $numberOfViolatons = 1;
         $this->assertEquals($numberOfViolatons, count($response->toArray(false)['violations']));
     }
+
+    public function testCreateUserAsAdmin(): void
+    {
+        $response = static::adminClient()->request('POST', self::USER_COLLECTION_PATH, [
+            'json' => [
+                'email' => 'test@test.local',
+                'password' => '123456',
+                'roles' => ['ROLE_PUBLISHER'],
+            ],
+        ]);
+
+        $this->assertResponseIsSuccessful();
+    }
 }
