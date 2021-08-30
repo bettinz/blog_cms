@@ -33,14 +33,6 @@ class UserInputDto
     }
 
     /**
-     * @param string $email
-     */
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
-    }
-
-    /**
      * @return string
      */
     public function getPassword(): string
@@ -49,26 +41,10 @@ class UserInputDto
     }
 
     /**
-     * @param string $password
-     */
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
-    }
-
-    /**
      * @return array
      */
     public function getRoles(): array
     {
         return $this->roles;
-    }
-
-    /**
-     * @param array $roles
-     */
-    public function setRoles(array $roles): void
-    {
-        $this->roles = $roles;
     }
 }
