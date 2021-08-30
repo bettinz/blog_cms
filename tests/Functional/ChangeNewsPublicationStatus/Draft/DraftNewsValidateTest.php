@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Functional\ChangeNewsPublicationStatus;
+namespace App\Tests\Functional\ChangeNewsPublicationStatus\Draft;
 
 use App\Entity\News;
 use App\Tests\Functional\CommonFunctions;
 use Doctrine\ORM\EntityManager;
 
-class IdeaNewsPublishTest extends CommonFunctions
+class DraftNewsValidateTest extends CommonFunctions
 {
     private EntityManager $entityManager;
 
@@ -19,77 +19,82 @@ class IdeaNewsPublishTest extends CommonFunctions
             ->getManager();
     }
 
-    public function testIdeaNewsPublishAsEditor(): void
+    public function testDraftNewsValidateAsEditor(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
+            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
         ]);
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/publish';
+        $url = '/api/news/'.$id.'/validate';
 
         $response = static::editorClient()->request('GET', $url);
 
-        $this->assertResponseStatusCodeSame(403);
-    }
-
-    public function testIdeaNewsPublishAsPublisher(): void
-    {
-        /**
-         * @var News|null $news
-         */
-        $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
-        ]);
-
-        $id = $news->getId();
-
-        $url = '/api/news/'.$id.'/publish';
-
-        $response = static::publisherClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains([
             '@context' => '/api/contexts/News',
             '@id' => '/api/news/'.$id,
-            'publicationStatus' => 'idea',
+            'publicationStatus' => 'draft',
         ]);
-
     }
 
-    public function testIdeaNewsPublishAsReviewer(): void
+    public function testDraftNewsValidateAsPublisher(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
+            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
         ]);
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/publish';
+        $url = '/api/news/'.$id.'/validate';
 
-        $response = static::reviewerClient()->request('GET', $url);
+        $response = static::publisherClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testIdeaNewsPublishAsAdmin(): void
+    public function testDraftNewsValidateAsReviewer(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
+            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
         ]);
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/publish';
+        $url = '/api/news/'.$id.'/validate';
+
+        $response = static::reviewerClient()->request('GET', $url);
+        $this->assertResponseStatusCodeSame(200);
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/News',
+            '@id' => '/api/news/'.$id,
+            'publicationStatus' => 'draft',
+        ]);
+    }
+
+    public function testDraftNewsValidateAsAdmin(): void
+    {
+        /**
+         * @var News|null $news
+         */
+        $news = $this->entityManager->getRepository('App:News')->findOneBy([
+            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
+        ]);
+
+        $id = $news->getId();
+
+        $url = '/api/news/'.$id.'/validate';
 
         $response = static::adminClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(200);
@@ -97,7 +102,7 @@ class IdeaNewsPublishTest extends CommonFunctions
         $this->assertJsonContains([
             '@context' => '/api/contexts/News',
             '@id' => '/api/news/'.$id,
-            'publicationStatus' => 'idea',
+            'publicationStatus' => 'draft',
         ]);
     }
 }

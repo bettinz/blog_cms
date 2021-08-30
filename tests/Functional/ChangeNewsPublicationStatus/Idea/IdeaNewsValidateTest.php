@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Tests\Functional\ChangeNewsPublicationStatus;
+namespace App\Tests\Functional\ChangeNewsPublicationStatus\Idea;
 
 use App\Entity\News;
 use App\Tests\Functional\CommonFunctions;
 use Doctrine\ORM\EntityManager;
 
-class DraftNewsValidateTest extends CommonFunctions
+class IdeaNewsValidateTest extends CommonFunctions
 {
     private EntityManager $entityManager;
 
@@ -19,13 +19,13 @@ class DraftNewsValidateTest extends CommonFunctions
             ->getManager();
     }
 
-    public function testDraftNewsValidateAsEditor(): void
+    public function testIdeaNewsValidateAsEditor(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
+            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
         ]);
 
         $id = $news->getId();
@@ -41,15 +41,17 @@ class DraftNewsValidateTest extends CommonFunctions
             '@id' => '/api/news/'.$id,
             'publicationStatus' => 'draft',
         ]);
+        $news->setPublicationStatus('idea');
+        $this->entityManager->flush();
     }
 
-    public function testDraftNewsValidateAsPublisher(): void
+    public function testIdeaNewsValidateAsPublisher(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
+            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
         ]);
 
         $id = $news->getId();
@@ -60,13 +62,13 @@ class DraftNewsValidateTest extends CommonFunctions
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testDraftNewsValidateAsReviewer(): void
+    public function testIdeaNewsValidateAsReviewer(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
+            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
         ]);
 
         $id = $news->getId();
@@ -81,15 +83,18 @@ class DraftNewsValidateTest extends CommonFunctions
             '@id' => '/api/news/'.$id,
             'publicationStatus' => 'draft',
         ]);
+
+        $news->setPublicationStatus('idea');
+        $this->entityManager->flush();
     }
 
-    public function testDraftNewsValidateAsAdmin(): void
+    public function testIdeaNewsValidateAsAdmin(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
+            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
         ]);
 
         $id = $news->getId();
@@ -104,5 +109,8 @@ class DraftNewsValidateTest extends CommonFunctions
             '@id' => '/api/news/'.$id,
             'publicationStatus' => 'draft',
         ]);
+
+        $news->setPublicationStatus('idea');
+        $this->entityManager->flush();
     }
 }

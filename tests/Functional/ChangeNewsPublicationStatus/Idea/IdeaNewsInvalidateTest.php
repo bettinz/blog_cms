@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Tests\Functional\ChangeNewsPublicationStatus;
+namespace App\Tests\Functional\ChangeNewsPublicationStatus\Idea;
 
 use App\Entity\News;
 use App\Tests\Functional\CommonFunctions;
+
 use Doctrine\ORM\EntityManager;
 
-class IdeaNewsValidateTest extends CommonFunctions
+class IdeaNewsInvalidateTest extends CommonFunctions
 {
     private EntityManager $entityManager;
 
@@ -19,7 +20,7 @@ class IdeaNewsValidateTest extends CommonFunctions
             ->getManager();
     }
 
-    public function testIdeaNewsValidateAsEditor(): void
+    public function testIdeaNewsInvalidateAsEditor(): void
     {
         /**
          * @var News|null $news
@@ -30,22 +31,14 @@ class IdeaNewsValidateTest extends CommonFunctions
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/validate';
+        $url = '/api/news/'.$id.'/invalidate';
 
         $response = static::editorClient()->request('GET', $url);
 
-        $this->assertResponseStatusCodeSame(200);
-
-        $this->assertJsonContains([
-            '@context' => '/api/contexts/News',
-            '@id' => '/api/news/'.$id,
-            'publicationStatus' => 'draft',
-        ]);
-        $news->setPublicationStatus('idea');
-        $this->entityManager->flush();
+        $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testIdeaNewsValidateAsPublisher(): void
+    public function testIdeaNewsInvalidateAsPublisher(): void
     {
         /**
          * @var News|null $news
@@ -56,13 +49,13 @@ class IdeaNewsValidateTest extends CommonFunctions
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/validate';
+        $url = '/api/news/'.$id.'/invalidate';
 
         $response = static::publisherClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testIdeaNewsValidateAsReviewer(): void
+    public function testIdeaNewsInvalidateAsReviewer(): void
     {
         /**
          * @var News|null $news
@@ -73,7 +66,7 @@ class IdeaNewsValidateTest extends CommonFunctions
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/validate';
+        $url = '/api/news/'.$id.'/invalidate';
 
         $response = static::reviewerClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(200);
@@ -81,14 +74,11 @@ class IdeaNewsValidateTest extends CommonFunctions
         $this->assertJsonContains([
             '@context' => '/api/contexts/News',
             '@id' => '/api/news/'.$id,
-            'publicationStatus' => 'draft',
+            'publicationStatus' => 'idea',
         ]);
-
-        $news->setPublicationStatus('idea');
-        $this->entityManager->flush();
     }
 
-    public function testIdeaNewsValidateAsAdmin(): void
+    public function testIdeaNewsInvalidateAsAdmin(): void
     {
         /**
          * @var News|null $news
@@ -99,7 +89,7 @@ class IdeaNewsValidateTest extends CommonFunctions
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/validate';
+        $url = '/api/news/'.$id.'/invalidate';
 
         $response = static::adminClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(200);
@@ -107,10 +97,7 @@ class IdeaNewsValidateTest extends CommonFunctions
         $this->assertJsonContains([
             '@context' => '/api/contexts/News',
             '@id' => '/api/news/'.$id,
-            'publicationStatus' => 'draft',
+            'publicationStatus' => 'idea',
         ]);
-
-        $news->setPublicationStatus('idea');
-        $this->entityManager->flush();
     }
 }

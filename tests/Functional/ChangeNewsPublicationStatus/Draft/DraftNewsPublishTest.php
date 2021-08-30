@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Tests\Functional\ChangeNewsPublicationStatus;
+namespace App\Tests\Functional\ChangeNewsPublicationStatus\Draft;
 
 use App\Entity\News;
 use App\Tests\Functional\CommonFunctions;
-
 use Doctrine\ORM\EntityManager;
 
-class DraftNewsInvalidateTest extends CommonFunctions
+class DraftNewsPublishTest extends CommonFunctions
 {
     private EntityManager $entityManager;
 
@@ -20,7 +19,7 @@ class DraftNewsInvalidateTest extends CommonFunctions
             ->getManager();
     }
 
-    public function testDraftNewsInvalidateAsEditor(): void
+    public function testDraftNewsPublishAsEditor(): void
     {
         /**
          * @var News|null $news
@@ -31,14 +30,14 @@ class DraftNewsInvalidateTest extends CommonFunctions
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/invalidate';
+        $url = '/api/news/'.$id.'/publish';
 
         $response = static::editorClient()->request('GET', $url);
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testDraftNewsInvalidateAsPublisher(): void
+    public function testDraftNewsPublishAsPublisher(): void
     {
         /**
          * @var News|null $news
@@ -49,38 +48,20 @@ class DraftNewsInvalidateTest extends CommonFunctions
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/invalidate';
+        $url = '/api/news/'.$id.'/publish';
 
         $response = static::publisherClient()->request('GET', $url);
-        $this->assertResponseStatusCodeSame(403);
-    }
-
-    public function testDraftNewsInvalidateAsReviewer(): void
-    {
-        /**
-         * @var News|null $news
-         */
-        $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
-        ]);
-
-        $id = $news->getId();
-
-        $url = '/api/news/'.$id.'/invalidate';
-
-        $response = static::reviewerClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains([
             '@context' => '/api/contexts/News',
             '@id' => '/api/news/'.$id,
-            'publicationStatus' => 'idea',
+            'publicationStatus' => 'draft',
         ]);
-        $news->setPublicationStatus('draft');
-        $this->entityManager->flush();
+
     }
 
-    public function testDraftNewsInvalidateAsAdmin(): void
+    public function testDraftNewsPublishAsReviewer(): void
     {
         /**
          * @var News|null $news
@@ -91,7 +72,24 @@ class DraftNewsInvalidateTest extends CommonFunctions
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/invalidate';
+        $url = '/api/news/'.$id.'/publish';
+
+        $response = static::reviewerClient()->request('GET', $url);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDraftNewsPublishAsAdmin(): void
+    {
+        /**
+         * @var News|null $news
+         */
+        $news = $this->entityManager->getRepository('App:News')->findOneBy([
+            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
+        ]);
+
+        $id = $news->getId();
+
+        $url = '/api/news/'.$id.'/publish';
 
         $response = static::adminClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(200);
@@ -99,9 +97,7 @@ class DraftNewsInvalidateTest extends CommonFunctions
         $this->assertJsonContains([
             '@context' => '/api/contexts/News',
             '@id' => '/api/news/'.$id,
-            'publicationStatus' => 'idea',
+            'publicationStatus' => 'draft',
         ]);
-        $news->setPublicationStatus('draft');
-        $this->entityManager->flush();
     }
 }

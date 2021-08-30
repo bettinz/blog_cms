@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Tests\Functional\ChangeNewsPublicationStatus;
+namespace App\Tests\Functional\ChangeNewsPublicationStatus\Draft;
 
 use App\Entity\News;
 use App\Tests\Functional\CommonFunctions;
-
 use Doctrine\ORM\EntityManager;
 
-class IdeaNewsInvalidateTest extends CommonFunctions
+class DraftNewsUnpublishTest extends CommonFunctions
 {
     private EntityManager $entityManager;
 
@@ -20,76 +19,77 @@ class IdeaNewsInvalidateTest extends CommonFunctions
             ->getManager();
     }
 
-    public function testIdeaNewsInvalidateAsEditor(): void
+    public function testDraftNewsUnpublishAsEditor(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
+            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
         ]);
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/invalidate';
+        $url = '/api/news/'.$id.'/unpublish';
 
         $response = static::editorClient()->request('GET', $url);
 
         $this->assertResponseStatusCodeSame(403);
     }
 
-    public function testIdeaNewsInvalidateAsPublisher(): void
+    public function testDraftNewsUnpublishAsPublisher(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
+            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
         ]);
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/invalidate';
+        $url = '/api/news/'.$id.'/unpublish';
 
         $response = static::publisherClient()->request('GET', $url);
-        $this->assertResponseStatusCodeSame(403);
-    }
-
-    public function testIdeaNewsInvalidateAsReviewer(): void
-    {
-        /**
-         * @var News|null $news
-         */
-        $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
-        ]);
-
-        $id = $news->getId();
-
-        $url = '/api/news/'.$id.'/invalidate';
-
-        $response = static::reviewerClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(200);
 
         $this->assertJsonContains([
             '@context' => '/api/contexts/News',
             '@id' => '/api/news/'.$id,
-            'publicationStatus' => 'idea',
+            'publicationStatus' => 'draft',
         ]);
+
     }
 
-    public function testIdeaNewsInvalidateAsAdmin(): void
+    public function testDraftNewsUnpublishAsReviewer(): void
     {
         /**
          * @var News|null $news
          */
         $news = $this->entityManager->getRepository('App:News')->findOneBy([
-            'title' => 'Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino',
+            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
         ]);
 
         $id = $news->getId();
 
-        $url = '/api/news/'.$id.'/invalidate';
+        $url = '/api/news/'.$id.'/unpublish';
+
+        $response = static::reviewerClient()->request('GET', $url);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDraftNewsUnpublishAsAdmin(): void
+    {
+        /**
+         * @var News|null $news
+         */
+        $news = $this->entityManager->getRepository('App:News')->findOneBy([
+            'title' => 'Terremoto 2016, molto è ancora fermo sul recupero dei centri storici',
+        ]);
+
+        $id = $news->getId();
+
+        $url = '/api/news/'.$id.'/unpublish';
 
         $response = static::adminClient()->request('GET', $url);
         $this->assertResponseStatusCodeSame(200);
@@ -97,7 +97,7 @@ class IdeaNewsInvalidateTest extends CommonFunctions
         $this->assertJsonContains([
             '@context' => '/api/contexts/News',
             '@id' => '/api/news/'.$id,
-            'publicationStatus' => 'idea',
+            'publicationStatus' => 'draft',
         ]);
     }
 }

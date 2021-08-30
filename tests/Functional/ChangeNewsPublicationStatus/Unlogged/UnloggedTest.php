@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\Functional\ChangeNewsPublicationStatus;
+namespace App\Tests\Functional\ChangeNewsPublicationStatus\Unlogged;
 
 use App\Entity\News;
 use App\Tests\Functional\CommonFunctions;
