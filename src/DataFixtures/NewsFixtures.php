@@ -34,9 +34,9 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->setCategory($this->getReference(CategoryFixtures::PRIMA_PAGINA_CATEGORY_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::SPORT_TAG_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::ECONOMIA_TAG_REFERENCE));
-        $news->setPublicationStatus('idea');
         $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
+        $news->setPublicationStatus('idea');
 
         $this->addReference(self::RONALDO_NEWS_REFERENCE, $news);
     }
@@ -48,9 +48,9 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->setDescription('Sono passati ben cinque anni dagli eventi sismici che colpirono, il 24 agosto 2016 e nei mesi seguenti');
         $news->setCategory($this->getReference(CategoryFixtures::LETTERE_AL_DIRETTORE_CATEGORY_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::CRONACA_TAG_REFERENCE));
-        $news->setPublicationStatus('draft');
         $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
+        $news->setPublicationStatus('draft');
 
         $this->addReference(self::TERREMOTO_NEWS_REFERENCE, $news);
     }
@@ -62,9 +62,9 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->setDescription('C’era questo ragazzo calabrese, anzi un omone, nella sua casetta, sul suo tavolo della cucina, la sua acqua minerale sempre a portata di mano, il suo bicchiere, la telecamera fissa, un intro diventato un marchio');
         $news->setCategory($this->getReference(CategoryFixtures::LETTERE_AL_DIRETTORE_CATEGORY_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::CRONACA_TAG_REFERENCE));
-        $news->setPublicationStatus('ready_to_publish');
         $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
+        $news->setPublicationStatus('ready_to_publish');
 
         $this->addReference(self::YOUTOBO_NEWS_REFERENCE, $news);
     }
@@ -76,9 +76,9 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->setDescription('Classe 1994, affetto dalla nascita da diplegia spastica - non muove gli arti inferiori - il nuotatore genovese è stato il primo multi-medagliato dei Giochi 2021:');
         $news->setCategory($this->getReference(CategoryFixtures::EDITORIALE_CATEGORY_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::SPORT_TAG_REFERENCE));
-        $news->setPublicationStatus('published');
         $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
+        $news->setPublicationStatus('published');
 
         $this->addReference(self::BOCCIARDO_NEWS_REFERENCE, $news);
     }
@@ -91,9 +91,9 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $news->setCategory($this->getReference(CategoryFixtures::PRIMA_PAGINA_CATEGORY_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::ECONOMIA_TAG_REFERENCE));
         $news->addTag($this->getReference(TagFixtures::CRONACA_TAG_REFERENCE));
-        $news->setPublicationStatus('unpublished');
         $news->setAuthor($this->getReference(UserFixtures::EDITOR_USER_REFERENCE));
         $manager->persist($news);
+        $news->setPublicationStatus('unpublished');
 
         $this->addReference(self::DEUTSCHE_NEWS_REFERENCE, $news);
     }
