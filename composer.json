@@ -8,7 +8,6 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "api-platform/core": "^2.6",
-        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "composer/package-versions-deprecated": "1.11.99.2",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.4",
@@ -52,6 +51,7 @@
     },
     "require-dev": {
         "ext-json": "*",
+        "doctrine/doctrine-fixtures-bundle": "^3.4",
         "friendsofphp/php-cs-fixer": "^3.0",
         "justinrainbow/json-schema": "^5.2",
         "phpstan/phpstan": "^0.12.96",
