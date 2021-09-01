@@ -7,23 +7,23 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/tag", name="tag_")
+ * @Route("/category", name="category_")
  */
-class TagController extends AbstractController
+class CategoryController extends AbstractController
 {
     /**
      * @Route("/index", name="index")
      */
-    public function showTagsDashboard(): Response
+    public function showCategoryDashboard(): Response
     {
-        return $this->render('tag/index.html.twig');
+        return $this->render('category/index.html.twig');
     }
 
     /**
      * @Route("/add", name="add")
      */
-    public function addTag(): Response
+    public function addCategory(): Response
     {
-        return $this->render('tag/add.html.twig');
+        return $this->render('category/add.html.twig');
     }
 }
