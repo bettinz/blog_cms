@@ -25,7 +25,7 @@ class UserFixtures extends Fixture
         $this->hasher = $hasher;
     }
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->editorUserBuilder($manager);
         $this->reviewerUserBuilder($manager);
@@ -35,7 +35,7 @@ class UserFixtures extends Fixture
         $manager->flush();
     }
 
-    public function editorUserBuilder(ObjectManager $manager)
+    public function editorUserBuilder(ObjectManager $manager): void
     {
         $user = new User();
         $user->setEmail('editor@blog.com');
@@ -46,7 +46,7 @@ class UserFixtures extends Fixture
         $this->addReference(self::EDITOR_USER_REFERENCE, $user);
     }
 
-    public function reviewerUserBuilder(ObjectManager $manager)
+    public function reviewerUserBuilder(ObjectManager $manager): void
     {
         $user = new User();
         $user->setEmail('reviewer@blog.com');
@@ -57,7 +57,7 @@ class UserFixtures extends Fixture
         $this->addReference(self::REVIEWER_USER_REFERENCE, $user);
     }
 
-    public function publisherUserBuilder(ObjectManager $manager)
+    public function publisherUserBuilder(ObjectManager $manager): void
     {
         $user = new User();
         $user->setEmail('publisher@blog.com');
@@ -68,7 +68,7 @@ class UserFixtures extends Fixture
         $this->addReference(self::PUBLISHER_USER_REFERENCE, $user);
     }
 
-    public function adminUserBuilder(ObjectManager $manager)
+    public function adminUserBuilder(ObjectManager $manager): void
     {
         $user = new User();
         $user->setEmail('admin@blog.com');

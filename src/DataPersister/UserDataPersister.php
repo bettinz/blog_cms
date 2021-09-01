@@ -18,18 +18,29 @@ class UserDataPersister implements DataPersisterInterface
         $this->userPersister = $userPersister;
     }
 
+    /**
+     * @param User $data
+     * @return bool
+     */
     public function supports($data): bool
     {
         return $data instanceof User;
     }
 
-    public function persist($data)
+    /**
+     * @param User $data
+     * @return User
+     */
+    public function persist($data): User
     {
         return $this->userPersister->persist($data);
     }
 
-    public function remove($data)
+    /**
+     * @param User $data
+     */
+    public function remove($data): void
     {
-        return $this->userPersister->remove($data);
+        $this->userPersister->remove($data);
     }
 }

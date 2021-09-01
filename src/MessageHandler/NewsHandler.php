@@ -21,7 +21,7 @@ class NewsHandler implements MessageHandlerInterface
         $this->manager = $manager;
     }
 
-    public function __invoke(News $news)
+    public function __invoke(News $news): void
     {
         $tags = [];
         $category = $this->manager->getRepository(Category::class)->find($news->getCategory());

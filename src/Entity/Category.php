@@ -36,20 +36,22 @@ class Category
      * @ORM\Column(type="integer")
      * @Groups("category", "news")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Groups("category", "news")
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\OneToMany(targetEntity=News::class, mappedBy="category")
      * @ApiSubresource()
+     *
+     * @var Collection|News[]
      */
-    private $news;
+    private Collection $news;
 
     public function __construct()
     {

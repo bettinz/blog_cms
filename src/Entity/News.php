@@ -3,13 +3,14 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\NewsStatus\InvalidateNews;
 use App\Controller\NewsStatus\MoveToDraftsNews;
 use App\Controller\NewsStatus\PrePublicateNews;
 use App\Controller\NewsStatus\PublishNews;
 use App\Controller\NewsStatus\UnpublishNews;
-use App\Controller\NewsStatus\InvalidateNews;
 use App\Controller\NewsStatus\ValidateNews;
 use App\Repository\NewsRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -93,27 +94,28 @@ class News
      * @ORM\Column(type="integer")
      * @Groups("news")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      * @Groups("news")
      */
-    private $title;
+    private string $title;
 
     /**
      * @ORM\Column(type="text", nullable=false)
      * @Assert\NotBlank()
      * @Groups("news")
      */
-    private $description;
+    private string $description;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="news")
      * @Groups("news")
+     * @var Collection|Tag[]
      */
-    private $tags;
+    private Collection $tags;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="news")
@@ -121,44 +123,44 @@ class News
      * @Assert\NotBlank()
      * @Groups("news")
      */
-    private $category;
+    private ?Category $category;
 
     /**
      * @ORM\Column(type="datetime")
      * @Groups("news")
      */
-    private $creationDate;
+    private DateTimeInterface $creationDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Groups("news")
      */
-    private $startPublicationDate;
+    private ?DateTimeInterface $startPublicationDate;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Groups("news")
      */
-    private $endPublicationDate;
+    private ?DateTimeInterface $endPublicationDate;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups("news")
      */
-    private $publicationStatus;
+    private ?string $publicationStatus;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="news")
      * @ORM\JoinColumn(nullable=false)
      * @Assert\NotBlank()
      */
-    private $author;
+    private User $author;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Groups("news")
      */
-    private $updateDate;
+    private ?DateTimeInterface $updateDate;
 
     public function __construct()
     {
@@ -168,7 +170,7 @@ class News
     /**
      * @ORM\PrePersist()
      */
-    public function onAdd()
+    public function onAdd(): void
     {
         $this->setPublicationStatus(self::STATUS_IDEA);
         $this->setCreationDate(new \DateTime('now'));
@@ -178,7 +180,7 @@ class News
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function onUpdate()
+    public function onUpdate(): void
     {
         $this->setUpdateDate(new \DateTime('now'));
     }
@@ -212,36 +214,36 @@ class News
         return $this;
     }
 
-    public function getCreationDate(): ?\DateTimeInterface
+    public function getCreationDate(): ?DateTimeInterface
     {
         return $this->creationDate;
     }
 
-    public function setCreationDate(\DateTimeInterface $creationDate): self
+    public function setCreationDate(DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
 
         return $this;
     }
 
-    public function getStartPublicationDate(): ?\DateTimeInterface
+    public function getStartPublicationDate(): ?DateTimeInterface
     {
         return $this->startPublicationDate;
     }
 
-    public function setStartPublicationDate(?\DateTimeInterface $startPublicationDate): self
+    public function setStartPublicationDate(?DateTimeInterface $startPublicationDate): self
     {
         $this->startPublicationDate = $startPublicationDate;
 
         return $this;
     }
 
-    public function getEndPublicationDate(): ?\DateTimeInterface
+    public function getEndPublicationDate(): ?DateTimeInterface
     {
         return $this->endPublicationDate;
     }
 
-    public function setEndPublicationDate(?\DateTimeInterface $endPublicationDate): self
+    public function setEndPublicationDate(?DateTimeInterface $endPublicationDate): self
     {
         $this->endPublicationDate = $endPublicationDate;
 
@@ -260,12 +262,12 @@ class News
         return $this;
     }
 
-    public function getUpdateDate(): ?\DateTimeInterface
+    public function getUpdateDate(): ?DateTimeInterface
     {
         return $this->updateDate;
     }
 
-    public function setUpdateDate(?\DateTimeInterface $updateDate): self
+    public function setUpdateDate(?DateTimeInterface $updateDate): self
     {
         $this->updateDate = $updateDate;
 

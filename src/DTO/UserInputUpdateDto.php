@@ -5,17 +5,17 @@ namespace App\DTO;
 class UserInputUpdateDto
 {
     /**
-     * @var string
+     * @var string|null
      */
     public ?string $email = '';
 
     /**
-     * @var string
+     * @var string|null
      */
     public ?string $password = '';
 
     /**
-     * @var array
+     * @var string[]
      */
     public ?array $roles = [];
 
@@ -36,7 +36,7 @@ class UserInputUpdateDto
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getRoles(): ?array
     {

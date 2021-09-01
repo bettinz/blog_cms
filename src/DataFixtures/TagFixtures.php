@@ -12,7 +12,7 @@ class TagFixtures extends Fixture
     public const SPORT_TAG_REFERENCE = 'sport';
     public const ECONOMIA_TAG_REFERENCE = 'economia';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->cronacaTagBuilder($manager);
         $this->sportTagBuilder($manager);
@@ -21,7 +21,7 @@ class TagFixtures extends Fixture
         $manager->flush();
     }
 
-    public function cronacaTagBuilder(ObjectManager $manager)
+    public function cronacaTagBuilder(ObjectManager $manager): void
     {
         $tag = new Tag();
         $tag->setName('cronaca');
@@ -30,7 +30,7 @@ class TagFixtures extends Fixture
         $this->addReference(self::CRONACA_TAG_REFERENCE, $tag);
     }
 
-    public function sportTagBuilder(ObjectManager $manager)
+    public function sportTagBuilder(ObjectManager $manager): void
     {
         $tag = new Tag();
         $tag->setName('sport');
@@ -39,7 +39,7 @@ class TagFixtures extends Fixture
         $this->addReference(self::SPORT_TAG_REFERENCE, $tag);
     }
 
-    public function economiaTagBuilder(ObjectManager $manager)
+    public function economiaTagBuilder(ObjectManager $manager): void
     {
         $tag = new Tag();
         $tag->setName('economia');

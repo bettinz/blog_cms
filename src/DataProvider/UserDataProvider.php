@@ -20,12 +20,17 @@ class UserDataProvider implements ItemDataProviderInterface, CollectionDataProvi
         $this->userCollectionProvider = $userCollectionProvider;
     }
 
-    public function getCollection(string $resourceClass, string $operationName = null)
+    /**
+     * @param string $resourceClass
+     * @param string|null $operationName
+     * @return User[]
+     */
+    public function getCollection(string $resourceClass, string $operationName = null): array
     {
         return $this->userCollectionProvider->provide();
     }
 
-    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = [])
+    public function getItem(string $resourceClass, $id, string $operationName = null, array $context = []): ?User
     {
         return $this->userItemProvider->provide($id);
     }
