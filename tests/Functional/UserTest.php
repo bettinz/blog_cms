@@ -251,4 +251,131 @@ class UserTest extends CommonFunctions
 
         $this->assertResponseIsSuccessful();
     }
+
+    public function testDeleteUserUnlogged()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::unloggedClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testDeleteUserAsEditor()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::editorClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteUserAsPublisher()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::publisherClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteUserAsReviewer()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::reviewerClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteUserAsAdmin()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::adminClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(204);
+
+        $response = static::adminClient()->request('GET', self::USER_COLLECTION_PATH);
+        $this->assertCount(3, $response->toArray()['hydra:member']);
+    }
+
+    public function testUpdateUserUnlogged()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::unloggedClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testUpdateUserAsEditor()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::editorClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateUserAsPublisher()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::publisherClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateUserAsReviewer()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::reviewerClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateUserAsAdmin()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'editor@blog.com']);
+
+        $response = static::adminClient()->request('PATCH', $iri, [
+            'headers' => [
+                'Content-Type' => 'application/merge-patch+json',
+            ],
+            'json' => [
+                'email' => 'editor2@blog.com',
+            ],
+        ]);
+
+        $iri = $this->findIriBy(User::class, ['email' => 'editor2@blog.com']);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => [
+                'hydra' => 'http://www.w3.org/ns/hydra/core#',
+                'id' => 'UserOutputDto/id',
+                'email' => 'UserOutputDto/email',
+                'roles' => 'UserOutputDto/roles',
+            ],
+            '@id' => $iri,
+            '@type' => 'User',
+            'email' => 'editor2@blog.com',
+        ]);
+    }
+
+    public function testDeleteAdminAsAdmin()
+    {
+        $iri = $this->findIriBy(User::class, ['email' => 'admin@blog.com']);
+
+        $response = static::adminClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(204);
+
+        $response = static::adminClient()->request('GET', self::USER_COLLECTION_PATH);
+        $this->assertCount(4, $response->toArray()['hydra:member']);
+
+        $response = static::adminClient()->request('GET', $iri);
+
+        $this->assertResponseIsSuccessful();
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@id' => $iri,
+            '@type' => 'User',
+        ]);
+    }
 }

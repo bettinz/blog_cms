@@ -2,32 +2,27 @@
 
 namespace App\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
-
-class UserInputDto
+class UserInputUpdateDto
 {
     /**
      * @var string
-     * @Assert\NotBlank()
      */
-    public string $email;
+    public ?string $email = '';
 
     /**
      * @var string
-     * @Assert\NotBlank()
      */
-    public string $password;
+    public ?string $password = '';
 
     /**
      * @var array
-     * @Assert\NotBlank()
      */
-    public array $roles;
+    public ?array $roles = [];
 
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -35,7 +30,7 @@ class UserInputDto
     /**
      * @return string
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
@@ -43,7 +38,7 @@ class UserInputDto
     /**
      * @return array
      */
-    public function getRoles(): array
+    public function getRoles(): ?array
     {
         return $this->roles;
     }

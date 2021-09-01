@@ -21,4 +21,19 @@ class UserPersister
 
         return $user;
     }
+
+    public function remove(User $user): void
+    {
+        $admin = $this->manager->getRepository('App:User')->findOneBy([
+            'email' => 'admin@blog.com',
+        ]);
+
+        if ($user !== $admin) {
+            foreach ($user->getNews() as $news) {
+                $news->setAuthor($admin);
+            }
+            $this->manager->remove($user);
+            $this->manager->flush();
+        }
+    }
 }

@@ -10,14 +10,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\DTO\UserInputDto;
+use App\DTO\UserInputUpdateDto;
+use App\DTO\UserInputCreateDto;
 use App\DTO\UserOutputDto;
 use App\Controller\User\GetMe;
 
 /**
  * @ApiResource(
- *     input=UserInputDto::class,
- *     output=UserOutputDto::class,
+ *     output = UserOutputDto::class,
  *     itemOperations={
  *          "get" = {"security"="is_granted('ROLE_ADMIN')"},
  *          "get_me" = {
@@ -30,10 +30,18 @@ use App\Controller\User\GetMe;
  *             },
  *             "read"=false,
  *          },
+ *          "DELETE" = {"security"="is_granted('ROLE_ADMIN')"},
+ *          "PATCH" = {
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "input" = UserInputUpdateDto::class,
+ *          },
  *     },
  *     collectionOperations={
  *          "get" = {"security"="is_granted('ROLE_ADMIN')"},
- *          "post" = {"security"="is_granted('ROLE_ADMIN')"},
+ *          "POST" = {
+ *              "security"="is_granted('ROLE_ADMIN')",
+ *              "input" = UserInputCreateDto::class,
+ *          },
  *     }
  * )
  * @ORM\Entity(repositoryClass=UserRepository::class)

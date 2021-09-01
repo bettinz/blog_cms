@@ -3,12 +3,13 @@
 namespace App\DataTransformer;
 
 use ApiPlatform\Core\DataTransformer\DataTransformerInterface;
+use ApiPlatform\Core\Serializer\AbstractItemNormalizer;
 use ApiPlatform\Core\Validator\ValidatorInterface;
-use App\DTO\UserInputDto;
+use App\DTO\UserInputUpdateDto;
 use App\Entity\User;
 use App\Service\TransformUserInputDtoToUser;
 
-class UserInputDataTransformer implements DataTransformerInterface
+class UserInputUpdateDataTransformer implements DataTransformerInterface
 {
     private ValidatorInterface $validator;
     private TransformUserInputDtoToUser $dtoToUser;
@@ -23,7 +24,7 @@ class UserInputDataTransformer implements DataTransformerInterface
     {
         $this->validator->validate($object);
 
-        return $this->dtoToUser->transform($object);
+        return $this->dtoToUser->transformExisting($object, $context[AbstractItemNormalizer::OBJECT_TO_POPULATE]);
     }
 
     public function supportsTransformation($data, string $to, array $context = []): bool
@@ -33,6 +34,6 @@ class UserInputDataTransformer implements DataTransformerInterface
             return false;
         }
 
-        return User::class === $to && ($context['input']['class'] ?? null) === UserInputDto::class;
+        return User::class === $to && ($context['input']['class'] ?? null) === UserInputUpdateDto::class;
     }
 }
