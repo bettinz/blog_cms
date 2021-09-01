@@ -20,7 +20,7 @@ class UserInputUpdateDataTransformer implements DataTransformerInterface
         $this->dtoToUser = $dtoToUser;
     }
 
-    public function transform($object, string $to, array $context = [])
+    public function transform($object, string $to, array $context = []): User
     {
         $this->validator->validate($object);
 

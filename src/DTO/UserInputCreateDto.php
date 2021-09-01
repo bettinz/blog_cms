@@ -18,6 +18,8 @@ class UserInputCreateDto
 
     /**
      * @Assert\NotBlank
+     *
+     * @var string[]
      */
     public ?array $roles = [];
 
@@ -38,7 +40,7 @@ class UserInputCreateDto
     }
 
     /**
-     * @return array
+     * @return string[]|null
      */
     public function getRoles(): ?array
     {

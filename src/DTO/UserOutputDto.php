@@ -14,6 +14,9 @@ class UserOutputDto
 
     public string $email;
 
+    /**
+     * @var string[]
+     */
     public array $roles;
 
     public function setId(int $id): void

@@ -11,9 +11,6 @@ class UserOutputDataTransformer implements DataTransformerInterface
 {
     private TransformUserToUserOutputDto $transformUserToUserOutputDto;
 
-    /**
-     * @param TransformUserToUserOutputDto $transformUserToUserOutputDto
-     */
     public function __construct(TransformUserToUserOutputDto $transformUserToUserOutputDto)
     {
         $this->transformUserToUserOutputDto = $transformUserToUserOutputDto;
