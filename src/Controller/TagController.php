@@ -16,7 +16,7 @@ class TagController extends AbstractController
      */
     public function showTagsDashboard(): Response
     {
-        return $this->render('tags/index.html.twig');
+        return $this->render('tag/index.html.twig');
     }
 
     /**
@@ -24,6 +24,6 @@ class TagController extends AbstractController
      */
     public function addTag(): Response
     {
-        return $this->render('tags/add.html.twig');
+        return $this->render('tag/add.html.twig');
     }
 }
