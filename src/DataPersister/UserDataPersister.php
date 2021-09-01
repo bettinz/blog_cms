@@ -10,9 +10,6 @@ class UserDataPersister implements DataPersisterInterface
 {
     private UserPersister $userPersister;
 
-    /**
-     * @param UserPersister $userPersister
-     */
     public function __construct(UserPersister $userPersister)
     {
         $this->userPersister = $userPersister;
@@ -20,7 +17,6 @@ class UserDataPersister implements DataPersisterInterface
 
     /**
      * @param User $data
-     * @return bool
      */
     public function supports($data): bool
     {
@@ -29,7 +25,6 @@ class UserDataPersister implements DataPersisterInterface
 
     /**
      * @param User $data
-     * @return User
      */
     public function persist($data): User
     {

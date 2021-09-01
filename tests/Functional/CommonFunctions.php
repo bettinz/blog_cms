@@ -7,7 +7,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class CommonFunctions extends ApiTestCase
 {
-    const LOGIN_PATH = '/api/login_check';
+    public const LOGIN_PATH = '/api/login_check';
 
     protected function setUp(): void
     {

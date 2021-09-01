@@ -58,7 +58,6 @@ class IdeaNewsMoveToDraftsTest extends CommonFunctions
             '@id' => '/api/news/'.$id,
             'publicationStatus' => 'idea',
         ]);
-
     }
 
     public function testIdeaNewsMoveToDraftsAsReviewer(): void

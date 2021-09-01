@@ -14,12 +14,8 @@ class UserFixtures extends Fixture
     public const PUBLISHER_USER_REFERENCE = 'publisher';
     public const ADMIN_USER_REFERENCE = 'admin';
 
-
     private UserPasswordHasherInterface $hasher;
 
-    /**
-     * @param UserPasswordHasherInterface $hasher
-     */
     public function __construct(UserPasswordHasherInterface $hasher)
     {
         $this->hasher = $hasher;

@@ -7,7 +7,6 @@ use ApiPlatform\Core\Annotation\ApiProperty;
 class UserOutputDto
 {
     /**
-     * @var int
      * @ApiProperty(identifier=true)
      */
     public int $id;
