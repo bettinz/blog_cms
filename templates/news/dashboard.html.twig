@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+{% block title %}News dashboard{% endblock %}
+{% block customJavascriptsBeforeBody %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: "/api/news",
+            dataType: "json",
+            contentType:"application/json; charset=utf-8",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Authorization", 'Bearer '+ localStorage.token);
+            }
+        }).done(function (response) {
+            $.each(response, function(i, item) {
+                var $tr = $('<tr>').append(
+                    $('<td>').text(item.id),
+                    $('<td>').text(item.title),
+                    $('<td>').text(item.description),
+                    $('<td>').text(item.publicationStatus),
+                    $('<td>').text(item.creationDate)
+                ).appendTo('#news_table');
+            });
+
+        }).fail(function (err)  {
+            //Handle errors here
+            $('#news_table').append('<p>Error</p>');
+        })
+    })
+</script>
+{% endblock %}
+{% block main %}
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+    </div>
+
+    <h2>News</h2>
+    <div class="table-responsive">
+        <table class="table table-striped table-sm" id="news_table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Description</th>
+                <th scope="col">Publication Status</th>
+                <th scope="col">Creation Date</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}
