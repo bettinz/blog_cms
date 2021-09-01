@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use App\DTO\UserInputDto;
 use App\DTO\UserOutputDto;
+use App\Controller\User\GetMe;
 
 /**
  * @ApiResource(
@@ -19,6 +20,16 @@ use App\DTO\UserOutputDto;
  *     output=UserOutputDto::class,
  *     itemOperations={
  *          "get" = {"security"="is_granted('ROLE_ADMIN')"},
+ *          "get_me" = {
+ *              "method" = "GET",
+ *              "path" = "/user/me",
+ *              "controller" = GetMe::class,
+ *              "security" = "is_granted('ROLE_USER')",
+ *              "openapi_context"={
+ *                 "parameters"={}
+ *             },
+ *             "read"=false,
+ *          },
  *     },
  *     collectionOperations={
  *          "get" = {"security"="is_granted('ROLE_ADMIN')"},
