@@ -122,4 +122,104 @@ class CategoryTest extends CommonFunctions
 
         $this->assertResponseStatusCodeSame(201);
     }
+
+    public function testDeleteCategoryUnlogged()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::unloggedClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testDeleteCategoryAsEditor()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::editorClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteCategoryAsPublisher()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::publisherClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteCategoryAsReviewer()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::reviewerClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteCategoryAsAdmin()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::adminClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(204);
+
+        $response = static::adminClient()->request('GET', self::CATEGORY_COLLECTION_PATH);
+        $this->assertCount(2, $response->toArray()['hydra:member']);
+    }
+
+    public function testUpdateCategoryUnlogged()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::unloggedClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testUpdateCategoryAsEditor()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::editorClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateCategoryAsPublisher()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::publisherClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateCategoryAsReviewer()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::reviewerClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateCategoryAsAdmin()
+    {
+        $iri = $this->findIriBy(Category::class, ['name' => 'editoriale']);
+
+        $response = static::adminClient()->request('PATCH', $iri, [
+            'headers' => [
+                'Content-Type' => 'application/merge-patch+json',
+            ],
+            'json' => [
+                'name' => 'editoriale2',
+            ],
+        ]);
+
+        $updatedIri = $this->findIriBy(Category::class, ['name' => 'editoriale2']);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Category',
+            '@id' => $iri,
+            '@type' => 'Category',
+        ]);
+    }
 }
