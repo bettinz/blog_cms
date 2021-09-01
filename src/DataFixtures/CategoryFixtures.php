@@ -12,7 +12,7 @@ class CategoryFixtures extends Fixture
     public const EDITORIALE_CATEGORY_REFERENCE = 'editoriale';
     public const LETTERE_AL_DIRETTORE_CATEGORY_REFERENCE = 'lettere-al-direttore';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->primaPaginaCategoryBuilder($manager);
         $this->editorialeCategoryBuilder($manager);
@@ -21,7 +21,7 @@ class CategoryFixtures extends Fixture
         $manager->flush();
     }
 
-    public function primaPaginaCategoryBuilder(ObjectManager $manager)
+    public function primaPaginaCategoryBuilder(ObjectManager $manager): void
     {
         $category = new Category();
         $category->setName('prima-pagina');
@@ -30,7 +30,7 @@ class CategoryFixtures extends Fixture
         $this->addReference(self::PRIMA_PAGINA_CATEGORY_REFERENCE, $category);
     }
 
-    public function editorialeCategoryBuilder(ObjectManager $manager)
+    public function editorialeCategoryBuilder(ObjectManager $manager): void
     {
         $category = new Category();
         $category->setName('editoriale');
@@ -39,7 +39,7 @@ class CategoryFixtures extends Fixture
         $this->addReference(self::EDITORIALE_CATEGORY_REFERENCE, $category);
     }
 
-    public function lettereAlDirettoreCategoryBuilder(ObjectManager $manager)
+    public function lettereAlDirettoreCategoryBuilder(ObjectManager $manager): void
     {
         $category = new Category();
         $category->setName('lettere-al-direttore');

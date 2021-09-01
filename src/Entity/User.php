@@ -3,6 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\User\GetMe;
+use App\DTO\UserInputCreateDto;
+use App\DTO\UserInputUpdateDto;
+use App\DTO\UserOutputDto;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,10 +14,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\DTO\UserInputUpdateDto;
-use App\DTO\UserInputCreateDto;
-use App\DTO\UserOutputDto;
-use App\Controller\User\GetMe;
 
 /**
  * @ApiResource(
@@ -55,30 +55,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="integer")
      * @Groups("user")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups("news", "user")
      */
-    private $email;
+    private string $email;
 
     /**
      * @ORM\Column(type="json")
      * @Groups("user")
+     * @var string[]
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\OneToMany(targetEntity=News::class, mappedBy="author")
      */
-    private $news;
+    private Collection $news;
 
     public function __construct()
     {
@@ -132,6 +133,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param string[] $roles
+     *
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -168,7 +174,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;

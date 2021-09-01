@@ -7,19 +7,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 class UserInputCreateDto
 {
     /**
-     * @var string
      * @Assert\NotBlank
      */
     public ?string $email = '';
 
     /**
-     * @var string
      * @Assert\NotBlank
      */
     public ?string $password = '';
 
     /**
-     * @var array
      * @Assert\NotBlank
      */
     public ?array $roles = [];

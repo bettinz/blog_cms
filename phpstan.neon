@@ -1,7 +1,8 @@
 parameters:
+        checkGenericClassInNonGenericObjectType: false
         bootstrapFiles:
                 - vendor/autoload.php
-        level: 5
+        level: 6
         paths:
             - src
             - tests

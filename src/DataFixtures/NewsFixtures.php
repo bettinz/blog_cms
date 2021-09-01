@@ -15,7 +15,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
     public const BOCCIARDO_NEWS_REFERENCE = 'bocciardo';
     public const DEUTSCHE_NEWS_REFERENCE = 'deutsche';
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $this->ronaldoNewsBuilder($manager);
         $this->terremotoNewsBuilder($manager);
@@ -26,7 +26,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    public function ronaldoNewsBuilder(ObjectManager $manager)
+    public function ronaldoNewsBuilder(ObjectManager $manager): void
     {
         $news = new News();
         $news->setTitle('Cristiano Ronaldo, l\'addio alla Juventus è sempre più vicino');
@@ -41,7 +41,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference(self::RONALDO_NEWS_REFERENCE, $news);
     }
 
-    public function terremotoNewsBuilder(ObjectManager $manager)
+    public function terremotoNewsBuilder(ObjectManager $manager): void
     {
         $news = new News();
         $news->setTitle('Terremoto 2016, molto è ancora fermo sul recupero dei centri storici');
@@ -55,7 +55,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference(self::TERREMOTO_NEWS_REFERENCE, $news);
     }
 
-    public function youtoboNewsBuilder(ObjectManager $manager)
+    public function youtoboNewsBuilder(ObjectManager $manager): void
     {
         $news = new News();
         $news->setTitle('Youtubo anche io, non solo ‘mukbang’: nei suoi video c’era molto di più');
@@ -69,7 +69,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference(self::YOUTOBO_NEWS_REFERENCE, $news);
     }
 
-    public function bocciardoNewsBuilder(ObjectManager $manager)
+    public function bocciardoNewsBuilder(ObjectManager $manager): void
     {
         $news = new News();
         $news->setTitle('Bocciardo, doppio oro alle Paralimpiadi');
@@ -83,7 +83,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference(self::BOCCIARDO_NEWS_REFERENCE, $news);
     }
 
-    public function deutscheNewsBuilder(ObjectManager $manager)
+    public function deutscheNewsBuilder(ObjectManager $manager): void
     {
         $news = new News();
         $news->setTitle('Deutsche Bank, indagini in Germania e Usa sui prodotti di investimento sostenibile');
@@ -98,7 +98,7 @@ class NewsFixtures extends Fixture implements DependentFixtureInterface
         $this->addReference(self::DEUTSCHE_NEWS_REFERENCE, $news);
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class,

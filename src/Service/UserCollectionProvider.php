@@ -18,6 +18,9 @@ class UserCollectionProvider
     }
 
 
+    /**
+     * @return User[]
+     */
     public function provide(): array
     {
         return $this->manager->getRepository(User::class)->findAll();

@@ -36,20 +36,22 @@ class Tag
      * @ORM\Column(type="integer")
      * @Groups("tag", "news")
      */
-    private $id;
+    private int $id;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Assert\NotBlank()
      * @Groups("tag", "news")
      */
-    private $name;
+    private string $name;
 
     /**
      * @ORM\ManyToMany(targetEntity=News::class, mappedBy="tags")
      * @ApiSubresource()
+     *
+     * @var Collection|News[]
      */
-    private $news;
+    private Collection $news;
 
     public function __construct()
     {
