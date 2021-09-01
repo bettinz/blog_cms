@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -11,10 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class NewsController extends AbstractController
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
      * @Route("/dashboard", name="dashboard")
      */
-    public function showNewsDashboard()
+    public function showNewsDashboard(): Response
     {
         return $this->render('news/dashboard.html.twig');
     }

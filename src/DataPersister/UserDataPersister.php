@@ -30,6 +30,6 @@ class UserDataPersister implements DataPersisterInterface
 
     public function remove($data)
     {
-        return $this->userPersister->remove($data);
+        $this->userPersister->remove($data);
     }
 }

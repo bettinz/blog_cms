@@ -24,7 +24,7 @@ class UserPersister
 
     public function remove(User $user): void
     {
-        $admin = $this->manager->getRepository('App:User')->findOneBy([
+        $admin = $this->manager->getRepository(User::class)->findOneBy([
             'email' => 'admin@blog.com',
         ]);
 
