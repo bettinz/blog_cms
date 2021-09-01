@@ -51,7 +51,7 @@ mounts:
 hooks:
     build: |
         set -x -e
-
+        php bin/console lexik:jwt:generate-keypair --skip-if-exists
         curl -fs https://get.symfony.com/cloud/configurator | (>&2 bash)
         
         (>&2 symfony-build)
