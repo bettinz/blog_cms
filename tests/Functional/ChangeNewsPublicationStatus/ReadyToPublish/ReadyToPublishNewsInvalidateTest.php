@@ -4,7 +4,6 @@ namespace App\Tests\Functional\ChangeNewsPublicationStatus\ReadyToPublish;
 
 use App\Entity\News;
 use App\Tests\Functional\CommonFunctions;
-
 use Doctrine\ORM\EntityManager;
 
 class ReadyToPublishNewsInvalidateTest extends CommonFunctions

@@ -61,7 +61,6 @@ class ReadyToPublishNewsPublishTest extends CommonFunctions
 
         $news->setPublicationStatus('ready_to_publish');
         $this->entityManager->flush();
-
     }
 
     public function testReadyToPublishNewsPublishAsReviewer(): void

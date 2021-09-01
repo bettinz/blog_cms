@@ -58,7 +58,6 @@ class IdeaNewsPublishTest extends CommonFunctions
             '@id' => '/api/news/'.$id,
             'publicationStatus' => 'idea',
         ]);
-
     }
 
     public function testIdeaNewsPublishAsReviewer(): void

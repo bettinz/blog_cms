@@ -58,7 +58,6 @@ class PublishedNewsUnpublishTest extends CommonFunctions
             '@id' => '/api/news/'.$id,
             'publicationStatus' => 'unpublished',
         ]);
-
     }
 
     public function testPublishedNewsUnpublishAsReviewer(): void

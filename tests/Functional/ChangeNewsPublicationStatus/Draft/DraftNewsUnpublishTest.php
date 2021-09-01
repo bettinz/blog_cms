@@ -58,7 +58,6 @@ class DraftNewsUnpublishTest extends CommonFunctions
             '@id' => '/api/news/'.$id,
             'publicationStatus' => 'draft',
         ]);
-
     }
 
     public function testDraftNewsUnpublishAsReviewer(): void

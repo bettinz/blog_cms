@@ -4,14 +4,8 @@ namespace App\DTO;
 
 class UserInputUpdateDto
 {
-    /**
-     * @var string|null
-     */
     public ?string $email = '';
 
-    /**
-     * @var string|null
-     */
     public ?string $password = '';
 
     /**

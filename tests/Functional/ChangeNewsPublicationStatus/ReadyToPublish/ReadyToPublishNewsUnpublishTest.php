@@ -58,7 +58,6 @@ class ReadyToPublishNewsUnpublishTest extends CommonFunctions
             '@id' => '/api/news/'.$id,
             'publicationStatus' => 'ready_to_publish',
         ]);
-
     }
 
     public function testReadyToPublishNewsUnpublishAsReviewer(): void

@@ -113,6 +113,7 @@ class News
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, inversedBy="news")
      * @Groups("news")
+     *
      * @var Collection|Tag[]
      */
     private Collection $tags;

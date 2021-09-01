@@ -9,14 +9,10 @@ class UserItemProvider
 {
     private EntityManagerInterface $manager;
 
-    /**
-     * @param EntityManagerInterface $manager
-     */
     public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
     }
-
 
     public function provide(int $id): ?User
     {

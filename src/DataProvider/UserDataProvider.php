@@ -21,8 +21,6 @@ class UserDataProvider implements ItemDataProviderInterface, CollectionDataProvi
     }
 
     /**
-     * @param string $resourceClass
-     * @param string|null $operationName
      * @return User[]
      */
     public function getCollection(string $resourceClass, string $operationName = null): array
