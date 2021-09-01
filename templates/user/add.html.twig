@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+{% block main %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">User</h4>
+                <form class="needs-validation" novalidate id="user_add">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="user_email" class="form-label">Email</label>
+                            <input type="text" class="form-control" id="user_email" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Provide a user email.
+                            </div>
+                            <label for="user_password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="user_password" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Provide a user password.
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="editor" value="ROLE_EDITOR">
+                                <label class="form-check-label" for="editor">
+                                    Editor
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="publisher" value="ROLE_PUBLISHER">
+                                <label class="form-check-label" for="publisher">
+                                    Publisher
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="reviewer" value="ROLE_REVIEWER">
+                                <label class="form-check-label" for="reviewer">
+                                    Reviewer
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="flexRadioDefault" id="admin" value="ROLE_ADMIN">
+                                <label class="form-check-label" for="admin">
+                                    Admin
+                                </label>
+                            </div>
+                            <hr class="my-4">
+                            <button class="w-100 btn btn-primary btn-lg " type="button" id="save">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+{% block customJavascriptsAfterBody %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#save').click(function () {
+                var email = $("#user_email").val();
+                var password = $("#user_password").val();
+                var role = $('input[name=flexRadioDefault]:checked', '#user_add').val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/users",
+                    dataType: "json",
+                    contentType:"application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", 'Bearer '+ localStorage.token);
+                    },
+                    data: JSON.stringify({
+                        email: email,
+                        password: password,
+                        roles: [role],
+                    }),
+                    success: function (data) {
+                        $(location).attr('href',"{{ path('user_index') }}");
+                    },
+                    error: function () {
+                        // alert("Error");
+                    }
+                });
+            });
+        })
+    </script>
+{% endblock %}
