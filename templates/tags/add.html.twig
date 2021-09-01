@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+{% block main %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+    <div class="row g-5">
+        <div class="col-md-7 col-lg-8">
+            <h4 class="mb-3">Tag</h4>
+            <form class="needs-validation" novalidate>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <label for="firstName" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="tag_name" placeholder="" value="" required>
+                        <div class="invalid-feedback">
+                            Provide a tag name.
+                        </div>
+                        <hr class="my-4">
+                        <button class="w-100 btn btn-primary btn-lg " type="button" id="save">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}
+{% block customJavascriptsAfterBody %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#save').click(function () {
+                var name = $("#tag_name").val();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/tags",
+                    dataType: "json",
+                    contentType:"application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", 'Bearer '+ localStorage.token);
+                    },
+                    data: JSON.stringify({
+                        name: name,
+                    }),
+                    success: function (data) {
+                        $(location).attr('href',"{{ path('tags_index') }}");
+                    },
+                    error: function () {
+                        // alert("Error");
+                    }
+                });
+            });
+        })
+    </script>
+{% endblock %}
