@@ -17,7 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "groups"={"tag"}
  *     },
  *     itemOperations={
- *          "get"
+ *          "get",
+ *          "delete" = {"security"="is_granted('ROLE_ADMIN')"},
+ *          "patch" = {"security"="is_granted('ROLE_ADMIN')"},
  *     },
  *     collectionOperations={
  *          "get",

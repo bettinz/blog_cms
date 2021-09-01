@@ -122,4 +122,104 @@ class TagTest extends CommonFunctions
 
         $this->assertResponseStatusCodeSame(201);
     }
+
+    public function testDeleteTagUnlogged()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::unloggedClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testDeleteTagAsEditor()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::editorClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteTagAsPublisher()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::publisherClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteTagAsReviewer()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::reviewerClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testDeleteTagAsAdmin()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::adminClient()->request('DELETE', $iri);
+        $this->assertResponseStatusCodeSame(204);
+
+        $response = static::adminClient()->request('GET', self::TAG_COLLECTION_PATH);
+        $this->assertCount(2, $response->toArray()['hydra:member']);
+    }
+
+    public function testUpdateTagUnlogged()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::unloggedClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(401);
+    }
+
+    public function testUpdateTagAsEditor()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::editorClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateTagAsPublisher()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::publisherClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateTagAsReviewer()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::reviewerClient()->request('PATCH', $iri);
+        $this->assertResponseStatusCodeSame(403);
+    }
+
+    public function testUpdateTagAsAdmin()
+    {
+        $iri = $this->findIriBy(Tag::class, ['name' => 'cronaca']);
+
+        $response = static::adminClient()->request('PATCH', $iri, [
+            'headers' => [
+                'Content-Type' => 'application/merge-patch+json',
+            ],
+            'json' => [
+                'name' => 'cronaca2',
+            ],
+        ]);
+
+        $updatedIri = $this->findIriBy(Tag::class, ['name' => 'cronaca2']);
+
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertResponseHeaderSame('content-type', 'application/ld+json; charset=utf-8');
+
+        $this->assertJsonContains([
+            '@context' => '/api/contexts/Tag',
+            '@id' => $iri,
+            '@type' => 'Tag',
+        ]);
+    }
 }
