@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+{% block customJavascriptsBeforeBody %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajax({
+                type: "GET",
+                url: "/api/categories",
+                dataType: "json",
+                contentType:"application/json; charset=utf-8",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", 'Bearer '+ localStorage.token);
+                }
+            }).done(function (response) {
+                for (var i = 0; i < response.length; i++) {
+                    var select = document.getElementById("news_category");
+                    var option = document.createElement("option");
+                    option.text = response[i].name;
+                    option.value = '/api/categories/'+response[i].id;
+                    select.add(option);
+                }
+            }).fail(function (err)  {
+            })
+            $.ajax({
+                type: "GET",
+                url: "/api/users",
+                dataType: "json",
+                contentType:"application/json; charset=utf-8",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", 'Bearer '+ localStorage.token);
+                }
+            }).done(function (response) {
+                for (var i = 0; i < response.length; i++) {
+                    var select = document.getElementById("news_author");
+                    var option = document.createElement("option");
+                    option.text = response[i].email;
+                    option.value = '/api/users/'+response[i].id;
+                    select.add(option);
+                }
+            }).fail(function (err)  {
+            })
+            $.ajax({
+                type: "GET",
+                url: "/api/tags",
+                dataType: "json",
+                contentType:"application/json; charset=utf-8",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("Authorization", 'Bearer '+ localStorage.token);
+                }
+            }).done(function (response) {
+                $.each(response, function () {
+                    $("#checkboxes").append($('<div class="form-check"> <label class="form-check-label" for="'+response.name+'">').text(this.name).prepend(
+                        $("<input>").attr('type', 'checkbox').attr('class', 'form-check-input').attr('id', this.name).attr('name', 'news_tags')
+                            .val('/api/tags/'+this.id)
+                            .prop('checked', this.checked)
+                    )).append('</div>');
+                });
+            }).fail(function (err)  {
+            })
+        })
+    </script>
+{% endblock %}
+{% block main %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">News</h4>
+                <form class="needs-validation" novalidate id="user_add">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="news_title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="news_title" placeholder="" value="" required>
+                            <div class="invalid-feedback">
+                                Provide a news title.
+                            </div>
+                            <label for="news_description" class="form-label">Description</label>
+                            <textarea class="form-control" id="news_description" placeholder="" required></textarea>
+                            <div class="invalid-feedback">
+                                Provide a user password.
+                            </div>
+                            <label for="news_category" class="form-label">Category</label>
+                            <select class="form-select" id="news_category" aria-label="Default select example">
+                            </select>
+                            <label for="news_author" class="form-label">Author</label>
+                            <select class="form-select" id="news_author" aria-label="Default select example">
+                            </select>
+                            <label for="checkboxes" class="form-label">Tags</label>
+
+                            <div id="checkboxes">
+
+                            </div>
+                            <hr class="my-4">
+                            <button class="w-100 btn btn-primary btn-lg " type="button" id="save">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+{% endblock %}
+{% block customJavascriptsAfterBody %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#save').click(function () {
+                var title = $("#news_title").val();
+                var description = $("#news_description").val();
+                var category = $("#news_category").val();
+                var author = $("#news_author").val();
+                var tags =  $("#checkboxes input:checkbox:checked").map(function(){
+                }).get();
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/news",
+                    dataType: "json",
+                    contentType:"application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", 'Bearer '+ localStorage.token);
+                    },
+                    data: JSON.stringify({
+                        title: title,
+                        description: description,
+                        category: category,
+                        author: author,
+                        tags: tags,
+                    }),
+                    success: function (data) {
+                        $(location).attr('href',"{{ path('news_dashboard') }}");
+                    },
+                    error: function () {
+                        // alert("Error");
+                    }
+                });
+            });
+        })
+    </script>
+{% endblock %}

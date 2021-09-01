@@ -18,4 +18,12 @@ class NewsController extends AbstractController
     {
         return $this->render('news/dashboard.html.twig');
     }
+
+    /**
+     * @Route("/add", name="add")
+     */
+    public function addNews(): Response
+    {
+        return $this->render('news/add.html.twig');
+    }
 }
